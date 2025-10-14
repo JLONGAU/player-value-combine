@@ -11,7 +11,8 @@
 
 # Set working directory
 import os
-working_directory = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Tabcorp\\'
+#working_directory = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Tabcorp\\'
+working_directory = r"C:\Users\john.long\OneDrive - Geelong Football Club\Documents\player-value-combine"
 os.chdir(working_directory)
 
 # Import packages
@@ -29,7 +30,8 @@ pd.set_option('display.max_columns', 100)
 pd.set_option('display.float_format', lambda x: '%.2f' % x)
 
 # File paths
-file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+#file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+file_path = r"C:\Users\john.long\OneDrive - Geelong Football Club\Documents\player-value-combine"
 os.chdir(file_path)
 
 #%% Determine position in first 50 games
@@ -730,7 +732,8 @@ pd.set_option('display.max_columns', 100)
 pd.set_option('display.float_format', lambda x: '%.2f' %x)
 
 # Set the file path
-file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+#file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+file_path = r'C:\Users\john.long\OneDrive - Geelong Football Club\Documents\player-value-combine'
 
 # Change directory to the file path
 os.chdir(file_path)
@@ -914,7 +917,8 @@ from openpyxl.formatting.rule import ColorScaleRule
 from openpyxl.utils import get_column_letter
 
 # Set working directory
-file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+#file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
+file_path = r'C:\Users\john.long\OneDrive - Geelong Football Club\Documents\player-value-combine'
 os.chdir(file_path)
 
 # Display settings
@@ -1044,3 +1048,4 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
