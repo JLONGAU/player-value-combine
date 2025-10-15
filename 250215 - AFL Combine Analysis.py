@@ -508,82 +508,94 @@ def run_logistic_regression(df, target_value, label_override=None, min_sample_si
     
     # Select top 10 most important test metrics based on correlation
     top_metrics = logistic_coefficients.head(25)
-    
-    
-    # Create a horizontal bar chart
-    plt.figure(figsize=(10, 6))
-    
-    # Bar colors – use dark navy blue like in your original chart
-    bar_color = '#102A43'  # Deep navy tone
-    
-    bars = plt.barh(top_metrics["Test Metric"], top_metrics["Coefficient"], color=bar_color)
-    
-    # Add coefficient labels to the right of each bar
-    for bar in bars:
-        width = bar.get_width()
-        label_x_pos = width + 0.0005  # Slightly offset to the right for clarity
-        plt.text(label_x_pos,
-                 bar.get_y() + bar.get_height() / 2,
-                 f"{width:.3f}",
-                 va='center',
-                 ha='left',
-                 fontsize=9,
-                 color='black')
-        
-    # Format chart
-    plt.xlabel("Logistic Coefficients - (p-value <= 0.1)", fontsize=12)
-    plt.ylabel("Test Metric", fontsize=12)
-    plt.title(f"Test Relevance - {target_value} - ({min_year}-{max_year})", fontsize=14)
-    plt.gca().invert_yaxis()  # Invert y-axis to have highest correlation at the top
-    
-    # Show plot
-    plt.tight_layout()
-    plt.show()
-    
-    # List of top test metrics
-    top_tests = list(logistic_coefficients['Test Metric'].head(25))
+
+    if top_metrics.empty:
+        print(f"No statistically significant test metrics identified for {label_name}. Skipping plots.")
+        top_tests = []
+    else:
+        # Create a horizontal bar chart
+        plt.figure(figsize=(10, 6))
+
+        # Bar colors – use dark navy blue like in your original chart
+        bar_color = '#102A43'  # Deep navy tone
+
+        bars = plt.barh(top_metrics["Test Metric"], top_metrics["Coefficient"], color=bar_color)
+
+        # Add coefficient labels to the right of each bar
+        for bar in bars:
+            width = bar.get_width()
+            label_x_pos = width + 0.0005  # Slightly offset to the right for clarity
+            plt.text(label_x_pos,
+                     bar.get_y() + bar.get_height() / 2,
+                     f"{width:.3f}",
+                     va='center',
+                     ha='left',
+                     fontsize=9,
+                     color='black')
+
+        # Format chart
+        plt.xlabel("Logistic Coefficients - (p-value <= 0.1)", fontsize=12)
+        plt.ylabel("Test Metric", fontsize=12)
+        plt.title(f"Test Relevance - {target_value} - ({min_year}-{max_year})", fontsize=14)
+        plt.gca().invert_yaxis()  # Invert y-axis to have highest correlation at the top
+
+        # Show plot
+        plt.tight_layout()
+        plt.show()
+
+        # List of top test metrics
+        top_tests = list(top_metrics['Test Metric'])
     
     ### 🔍 Trellis of Box Plots: Test value distributions split by Is_Drafted ###
     
     label_name = label_override if label_override else target_value
     
-    num_tests = len(top_tests)
-    num_cols = 4
-    num_rows = -(-num_tests // num_cols)  # Ceiling division for rows
+    if top_tests:
+        num_tests = len(top_tests)
+        num_cols = 4
+        num_rows = -(-num_tests // num_cols)  # Ceiling division for rows
 
-    fig, axes = plt.subplots(num_rows, num_cols, figsize=(4*num_cols, 4*num_rows), constrained_layout=True)
-    axes = axes.flatten()
+        fig, axes = plt.subplots(num_rows, num_cols, figsize=(4*num_cols, 4*num_rows), constrained_layout=True)
+        axes = axes.flatten()
 
-    for i, test in enumerate(top_tests):
-        if test not in df.columns:
-            continue
+        for i, test in enumerate(top_tests):
+            if test not in df.columns:
+                continue
 
-        # Drop rows with NaNs for this test
-        plot_data = df[[test, target_value]].dropna()
-        
-        # Map 0 → "No", 1 → "Yes" for x-axis labels
-        plot_data[target_value] = plot_data[target_value].map({0: "No", 1: "Yes"})
+            # Drop rows with NaNs for this test
+            plot_data = df[[test, target_value]].dropna()
 
-        sns.boxplot(x=target_value, y=test, data=plot_data, ax=axes[i], palette="Set2")
-        
-        axes[i].set_title(test, fontsize=10)
-        axes[i].set_xlabel("Drafted", fontsize=9)
-        axes[i].set_ylabel("Score", fontsize=9)
-        axes[i].tick_params(labelsize=8)
-        
-        # 🚫 Clip y-axis to 1st and 99th percentiles
-        lower, upper = plot_data[test].quantile([0.01, 0.99])
-        axes[i].set_ylim(lower, upper)
+            # Map 0 → "No", 1 → "Yes" for x-axis labels
+            plot_data[target_value] = plot_data[target_value].map({0: "No", 1: "Yes"})
 
-    # Hide any unused subplots
-    for j in range(i+1, len(axes)):
-        fig.delaxes(axes[j])
+            sns.boxplot(x=target_value, y=test, data=plot_data, ax=axes[i], palette="Set2")
 
-    fig.suptitle(f"Test Distributions - Split by Draf Success ({label_name})", fontsize=16)
+            axes[i].set_title(test, fontsize=10)
+            axes[i].set_xlabel("Drafted", fontsize=9)
+            axes[i].set_ylabel("Score", fontsize=9)
+            axes[i].tick_params(labelsize=8)
 
-    plt.show()
+            # 🚫 Clip y-axis to 1st and 99th percentiles
+            lower, upper = plot_data[test].quantile([0.01, 0.99])
+            axes[i].set_ylim(lower, upper)
+
+        # Hide any unused subplots
+        for j in range(i+1, len(axes)):
+            fig.delaxes(axes[j])
+
+        fig.suptitle(f"Test Distributions - Split by Draft Success ({label_name})", fontsize=16)
+
+        plt.show()
+
+    else:
+        print(f"No box plots generated because no top tests were available for {label_name}.")
     
-    column_string = f"{target_value} - {min_year.astype(str)[2:4]} to {max_year.astype(str)[2:4]}"
+    if pd.notna(min_year) and pd.notna(max_year):
+        min_year_str = str(int(min_year))
+        max_year_str = str(int(max_year))
+        column_string = f"{target_value} - {min_year_str[-2:]} to {max_year_str[-2:]}"
+    else:
+        column_string = target_value
     
     logistic_coefficients = logistic_coefficients[['Test Metric', 'Coefficient']]
     logistic_coefficients.columns = ['Test Metric', column_string]
