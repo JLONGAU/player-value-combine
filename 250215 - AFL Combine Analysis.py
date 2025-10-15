@@ -782,7 +782,8 @@ supported_model_types = {
 }
 
 # Load the feature names
-columns_all = pd.read_csv('02. Processed Data/draft_model_feature_names.csv')
+#columns_all = pd.read_csv('02. Processed Data/draft_model_feature_names.csv')
+columns_all = pd.read_csv(r"C:\Users\john.long\player-value-combine\02. Processed Data\draft_model_feature_names.csv")
 
 #position = ['']
 #position = '_POS_Ruck'
@@ -1085,5 +1086,6 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
 
 
