@@ -1,0 +1,57 @@
+feature_names
+Height
+Mass
+Tri
+Scap
+Bi
+Supra
+Ab
+Thi
+Calf
+Sum7
+S&R_Base
+S&R_Standard
+Arm
+Hand
+Reach
+Abs VJ
+AbsRun VJ Right
+AbsRun VJ Left
+VJ
+Run VJ Right
+Run VJ Left
+5m Sprint
+10m Sprint
+20m Sprint
+Agility
+Shuttle
+Level
+Dec
+VO2
+2Kmin
+2Ksec
+2K
+3Kmin
+3Ksec
+3K
+Repeat sprint 1
+Repeat sprint 2
+Repeat sprint 3
+Repeat sprint 4
+Repeat sprint 5
+Repeat sprint 6
+Repeat sprint total
+Kicking Test
+Kicking Efficiency
+Clean Hands Test
+Hands Efficiency
+Goal Kicking Test
+Goal Kicking Efficiency
+2 km TT
+Bench 2RM
+Chin 3RM
+ITMP Peak
+Explosive_Power_Score
+Agility_Speed_Ratio
+Speed_Power_Composite
+Repeat_Sprint_Fatigue_Index
