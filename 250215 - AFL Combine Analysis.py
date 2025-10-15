@@ -94,14 +94,20 @@ combine_df['First_Name'] = combine_df['First_Name'].fillna('')
 combine_df['Last_Name_Clean'] = combine_df['Last_Name'].str.lower().str.replace(r'[^a-z0-9]', '', regex=True)
 
 # Convert DOB and DOT to datetime format, keeping NaT for invalid values
-combine_df['Birth_Year'] = pd.to_datetime(combine_df['DOB'], errors='coerce').dt.year.astype('Int64')
-combine_df['Year'] = pd.to_datetime(combine_df['DOT'], errors='coerce').dt.year.astype('Int64')
+combine_df['DOB'] = pd.to_datetime(combine_df['DOB'], errors='coerce')
+combine_df['DOT'] = pd.to_datetime(combine_df['DOT'], errors='coerce')
+combine_df['Birth_Year'] = combine_df['DOB'].dt.year.astype('Int64')
+combine_df['Year'] = combine_df['DOT'].dt.year.astype('Int64')
 
 # Create Player_ID
 combine_df['Player_ID'] = combine_df['First_Name'] + '_' + combine_df['Last_Name_Clean'] + '_' + combine_df['Birth_Year'].astype(str)
 
-# Convert DOT to datetime format, keeping NaT for invalid values
-combine_df['Birth_Year'] = pd.to_datetime(combine_df['DOB'], errors='coerce').dt.year
+# Drop rows with missing draft year before merging to avoid join errors
+combine_df = combine_df.dropna(subset=['Year'])
+
+# Ensure draft data has a clean integer Year column for joining
+draft_df['Year'] = pd.to_numeric(draft_df['Year'], errors='coerce').astype('Int64')
+draft_df = draft_df.dropna(subset=['Year'])
 
 # Join on whether the player got drafted
 combine_df = pd.merge(combine_df, 
@@ -372,7 +378,7 @@ plt.show()
 
 
 
-def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, target_value):
+def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, target_value, min_sample_size=50):
     """
     Computes logistic regression coefficients for each test metric individually.
 
@@ -400,7 +406,7 @@ def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, ta
         # Drop rows where the test is missing (no imputation)
         df_subset = df[[test, target_value]].dropna()
 
-        if df_subset.shape[0] < 50:  # Skip tests with too little data
+        if df_subset.shape[0] < min_sample_size:  # Skip tests with too little data
             continue
 
         X = df_subset[[test]]
@@ -445,7 +451,7 @@ def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, ta
 
 
 
-def run_logistic_regression(df, target_value, label_override=None):
+def run_logistic_regression(df, target_value, label_override=None, min_sample_size=50):
     
     #df = combine_df
     #df = df_2018_2023
@@ -480,7 +486,13 @@ def run_logistic_regression(df, target_value, label_override=None):
     """
 
     # Call the function and store the result
-    logistic_coefficients = calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, target_value)
+    logistic_coefficients = calculate_individual_logistic_coefficients(
+        df,
+        test_metrics,
+        valid_tests,
+        target_value,
+        min_sample_size=min_sample_size
+    )
     
     # Remove statistically not significant coefficients
     logistic_coefficients = logistic_coefficients[logistic_coefficients['p-value'] <= 0.1]
