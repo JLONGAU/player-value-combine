@@ -449,7 +449,15 @@ def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, ta
     if not results:
         return pd.DataFrame(columns=["Test Metric", "Coefficient", "p-value"])
 
-    coef_df = pd.DataFrame(results).sort_values(by="Coefficient", ascending=False)
+    # Ensure the expected columns always exist even if some entries are missing
+    # so that downstream sorting does not fail with a KeyError when
+    # ``Coefficient`` is absent.
+    coef_df = pd.DataFrame(results, columns=["Test Metric", "Coefficient", "p-value"])
+
+    if coef_df.empty:
+        return coef_df
+
+    coef_df = coef_df.sort_values(by="Coefficient", ascending=False)
     #coef_df = pd.DataFrame(results).sort_values(by="Coefficient", ascending=False)
 
     return coef_df
