@@ -443,7 +443,12 @@ def calculate_individual_logistic_coefficients(df, test_metrics, valid_tests, ta
         results.append({"Test Metric": test, "Coefficient": coef, "p-value": p_value})
         #results.append({"Test Metric": test, "Coefficient": model.coef_[0][0]})
 
-    # Convert results to DataFrame
+    # Convert results to DataFrame. If no results were collected (e.g., every
+    # metric was filtered out due to insufficient data), return an empty frame
+    # with the expected columns so downstream logic can continue gracefully.
+    if not results:
+        return pd.DataFrame(columns=["Test Metric", "Coefficient", "p-value"])
+
     coef_df = pd.DataFrame(results).sort_values(by="Coefficient", ascending=False)
     #coef_df = pd.DataFrame(results).sort_values(by="Coefficient", ascending=False)
 
