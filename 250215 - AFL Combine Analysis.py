@@ -350,7 +350,7 @@ engineered_metrics = {
 test_metrics.update(engineered_metrics)
 
 #Export data to excel
-#combine_df.to_excel('02. Processed Data/AFL Combine Analysis_All_Years.xlsx')
+combine_df.to_excel('02. Processed Data/AFL Combine Analysis_All_Years.xlsx')
 
 # Identify all numerical columns dynamically (excluding categorical/text fields)
 numeric_columns = combine_df.select_dtypes(include=["number"]).columns.tolist()
@@ -1085,4 +1085,5 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
 
