@@ -192,10 +192,10 @@ if __name__ == '__main__':
     }
     
     positions = {
-        "POS_Gen_Def": (ml_data_full['POS_Gen Def'] == 1) | (ml_data_full['POS_No matches'] == 1),
-        "POS_Gen_Fwd": (ml_data_full['POS_Gen Fwd'] == 1) | (ml_data_full['POS_No matches'] == 1),
-        "POS_Key_Def": (ml_data_full['POS_Key Def'] == 1) | (ml_data_full['POS_No matches'] == 1),
-        "POS_Key_Fwd": (ml_data_full['POS_Key Fwd'] == 1) | (ml_data_full['POS_No matches'] == 1),
+      #  "POS_Gen_Def": (ml_data_full['POS_Gen Def'] == 1) | (ml_data_full['POS_No matches'] == 1),
+      #  "POS_Gen_Fwd": (ml_data_full['POS_Gen Fwd'] == 1) | (ml_data_full['POS_No matches'] == 1),
+      #  "POS_Key_Def": (ml_data_full['POS_Key Def'] == 1) | (ml_data_full['POS_No matches'] == 1),
+      #  "POS_Key_Fwd": (ml_data_full['POS_Key Fwd'] == 1) | (ml_data_full['POS_No matches'] == 1),
         "POS_Mid":     (ml_data_full['POS_Mid'] == 1)     | (ml_data_full['POS_No matches'] == 1),
         "POS_Ruck":    (ml_data_full['POS_Ruck'] == 1)    | (ml_data_full['POS_No matches'] == 1),
     }
@@ -232,4 +232,5 @@ if __name__ == '__main__':
         results_df.to_csv(f"05. Results/draft_model_results_{pos_name}.csv", index=False)
         
         
+
 
