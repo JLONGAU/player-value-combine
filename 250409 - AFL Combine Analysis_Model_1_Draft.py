@@ -100,7 +100,8 @@ if __name__ == '__main__':
     
     # File paths
     #file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
-    file_path =  r"C:\Users\john.long\player-value-combine"
+    #file_path =  r"C:\Users\john.long\player-value-combine"
+    file_path =  r"/home/gfcmatlinadm01/DEV/player_value_combine/player-value-combine"
     os.chdir(file_path)
     
     # Load dataset
@@ -232,5 +233,6 @@ if __name__ == '__main__':
         results_df.to_csv(f"05. Results/draft_model_results_{pos_name}.csv", index=False)
         
         
+
 
 
