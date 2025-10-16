@@ -33,7 +33,7 @@ pd.set_option('display.float_format', lambda x: '%.2f' % x)
 # File paths
 #file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
 #file_path = r"C:\Users\john.long\player-value-combine"
-file_path = r"/home/gfcmatlinadm01/DEV/player_value_combine/player-value-combine"
+file_path = r"\home\gfcmatlinadm01\DEV\player_value_combine\player-value-combine"
 
 os.chdir(file_path)
 
@@ -773,7 +773,8 @@ pd.set_option('display.float_format', lambda x: '%.2f' %x)
 
 # Set the file path
 #file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
-file_path = r'C:\Users\john.long\player-value-combine'
+#file_path = r'C:\Users\john.long\player-value-combine'
+file_path = r"\home\gfcmatlinadm01\DEV\player_value_combine\player-value-combine"
 
 # Change directory to the file path
 os.chdir(file_path)
@@ -959,7 +960,8 @@ from openpyxl.utils import get_column_letter
 
 # Set working directory
 #file_path = 'C:\\Users\\birch\\OneDrive\\Desktop\\Projects\\Geelong\\Player Value'
-file_path = r'C:\Users\john.long\player-value-combine'
+#file_path = r'C:\Users\john.long\player-value-combine'
+file_path = r"\home\gfcmatlinadm01\DEV\player_value_combine\player-value-combine"
 os.chdir(file_path)
 
 # Display settings
@@ -1089,6 +1091,7 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
 
 
 
