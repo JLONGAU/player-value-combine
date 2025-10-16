@@ -77,10 +77,10 @@ champion_df.columns = ['Player_ID', 'POS', 'Total_Matches']
 #%% Data Processing
 
 # Import combine data
-combine_df = pd.read_excel('01. Raw Data\\Historical Draft Combine Data\\AFL Combine historical- updated Oct 2025.xlsx')
+combine_df = pd.read_excel('01. Raw Data/Historical Draft Combine Data/AFL Combine historical- updated Oct 2025.xlsx')
 
 # Import draft data
-draft_df = pd.read_csv('02. Processed Data\\picks_with_dob_df.csv')[['Pick Number', 'Club Name', 'Year', 'Draft Type', 'Is_Father_Son', 'Player_ID']].drop_duplicates()
+draft_df = pd.read_csv('02. Processed Data/picks_with_dob_df.csv')[['Pick Number', 'Club Name', 'Year', 'Draft Type', 'Is_Father_Son', 'Player_ID']].drop_duplicates()
 
 # Drop rows where important columns are NaN
 combine_df = combine_df.dropna(subset=['Name'])
@@ -1091,6 +1091,7 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
 
 
 
