@@ -40,7 +40,7 @@ os.chdir(file_path)
 #%% Determine position in first 50 games
 
 # Import Champion data
-champion_df = pd.read_csv('02. Processed Data\\AFL Player Stats by Round by Season_Joined_POSfixed.csv')[
+champion_df = pd.read_csv('02. Processed Data/AFL Player Stats by Round by Season_Joined_POSfixed.csv')[
     ['Player_ID', 'SEASON', 'ROUND', 'POS']].drop_duplicates()
 
 # Sort data by Player_ID, SEASON, and ROUND to ensure chronological order
@@ -1091,6 +1091,7 @@ for position in positions:
         ml_data.to_excel(writer, index=False, sheet_name='2025 Predictions')
 
     print("✅ 2025 Excel output with formatting saved to:", output_file)
+
 
 
 
